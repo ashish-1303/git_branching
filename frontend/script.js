@@ -1,7 +1,7 @@
 //  API URL to fetch and store notes data
 const API = "http://localhost:5000/notes";
 
-// Function to show notes
+// Function to load(display) the notes 
 async function loadNotes() {
 
   let response = await fetch(API);
@@ -11,8 +11,16 @@ async function loadNotes() {
   list.innerHTML = "";
 
   for (let note of data) {
+
     let li = document.createElement("li");
     li.innerText = note.text;
+
+    // delete button
+    let btn = document.createElement("button");
+    btn.innerText = "Delete";
+    btn.onclick = () => deleteNote(note.id);
+
+    li.appendChild(btn);
     list.appendChild(li);
   }
 }
@@ -32,6 +40,16 @@ async function addNote() {
   });
 
   input.value = "";
+  loadNotes();
+}
+
+// Function to delete the notes 
+async function deleteNote(id) {
+
+  await fetch(API + "/" + id, {
+    method: "DELETE"
+  });
+
   loadNotes();
 }
 
