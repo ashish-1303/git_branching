@@ -17,5 +17,23 @@ async function loadNotes() {
   }
 }
 
+//  Fucntion to add a new note
+async function addNote() {
+
+  let input = document.getElementById("noteInput");
+  let text = input.value;
+
+  await fetch(API, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text: text })
+  });
+
+  input.value = "";
+  loadNotes();
+}
+
 //  Notes will be loaded when page opens
 loadNotes();
